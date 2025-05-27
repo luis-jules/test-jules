@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Interactivo de Git y GitHub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <aside id="toc-container">
+            <h2>Índice del Tutorial</h2>
+            <nav id="toc">
+                <ul>
+                    <li><a href="#intro">1. Introducción</a>
+                        <ul>
+                            <li><a href="#intro-git">a. ¿Qué es Git?</a></li>
+                            <li><a href="#intro-github">b. ¿Qué es GitHub?</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#nuevo-proyecto">2. Empezando un Nuevo Proyecto</a>
+                        <ul>
+                            <li><a href="#nuevo-proyecto-paso1">a. Paso 1: Planificación</a></li>
+                            <li><a href="#nuevo-proyecto-paso2">b. Paso 2: Configuración Local e Instalación de Git</a></li>
+                            <li><a href="#nuevo-proyecto-paso3">c. Paso 3: Inicializar Git Local</a></li>
+                            <li><a href="#nuevo-proyecto-paso4">d. Paso 4: Crear Archivos Iniciales</a></li>
+                            <li><a href="#nuevo-proyecto-paso5">e. Paso 5: Crear Repositorio en GitHub y Conectar</a></li>
+                            <li><a href="#nuevo-proyecto-autenticacion">f. Autenticación con Git y GitHub</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#flujo-trabajo">3. Flujo de Trabajo Esencial</a>
+                        <ul>
+                            <li><a href="#flujo-trabajo-ramas">a. Ramas (Branches)</a></li>
+                            <li><a href="#flujo-trabajo-commits">b. Commits</a></li>
+                            <li><a href="#flujo-trabajo-prs">c. Pull Requests (PRs)</a></li>
+                            <li><a href="#flujo-trabajo-terminos-prs">d. Términos Clave de PRs</a></li>
+                            <li><a href="#flujo-trabajo-autorizar-main">e. Autorizar Cambios en Main</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#estructura-archivos">4. Estructura de Archivos</a>
+                        <ul>
+                            <li><a href="#estructura-archivos-local-inicial">a. Estructura Local Inicial</a></li>
+                            <li><a href="#estructura-archivos-local-completa">b. Estructura Local Más Completa</a></li>
+                            <li><a href="#estructura-archivos-github">c. Estructura en GitHub</a></li>
+                            <li><a href="#estructura-archivos-por-que">d. ¿Por Qué esta Estructura?</a></li>
+                            <li><a href="#estructura-archivos-rutas-relativas">e. Referenciando Archivos (Rutas Relativas)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#herramientas">5. Herramientas: ¿Terminal o IDE?</a>
+                        <ul>
+                            <li><a href="#herramientas-bash">a. ¿Por qué Bash?</a></li>
+                            <li><a href="#herramientas-ide">b. ¿Terminal o IDE?</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#otros-comandos">6. Otros Comandos Útiles</a></li>
+                    <li><a href="#buenas-practicas">7. Buenas Prácticas Adicionales</a></li>
+                    <li><a href="#conclusion">8. Conclusión</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="content">
+            <header>
+                <h1>Tutorial Completo de Git y GitHub: De Cero a Colaborador</h1>
+            </header>
+            
+            <div class="pdf-options-container">
+                <label for="pdf-orientation">Orientación del PDF:</label>
+                <select id="pdf-orientation">
+                    <option value="portrait" selected>Vertical (Portrait)</option>
+                    <option value="landscape">Horizontal (Landscape)</option>
+                </select>
+            </div>
+            <div class="button-container">
+                <button id="download-pdf">Descargar Tutorial como PDF</button>
+            </div>
+
+            <p>¡Bienvenido a este tutorial completo sobre Git y GitHub! Aprenderás los conceptos fundamentales y el flujo de trabajo esencial para gestionar tus proyectos de programación, colaborar con otros y mantener un historial organizado de tus cambios. Usaremos analogías y un proyecto de ejemplo llamado "RecetasWeb" para que todo sea más fácil de entender.</p>
+
+            <section id="intro">
+                <h2>1. Introducción: Tus Herramientas Esenciales</h2>
+                <p>Antes de sumergirnos en los comandos, entendamos qué son Git y GitHub y por qué son tan importantes.</p>
+                <h3 id="intro-git">a. ¿Qué es Git? El Guardián de Tus Versiones</h3>
+                <p>Git es un sistema de control de versiones. Imagina que estás escribiendo un libro; Git te permite guardar diferentes versiones del mismo para no perder nada si cometes un error. Es como un cuaderno mágico que guarda todas las versiones de tu libro (código) y te permite volver a ellas si lo necesitas. Además, Git facilita que varias personas trabajen en el mismo proyecto sin pisarse los cambios.</p>
+                <h3 id="intro-github">b. ¿Qué es GitHub? Tu Biblioteca en la Nube</h3>
+                <p>GitHub es una plataforma en línea que usa Git para almacenar proyectos (llamados "repositorios"). Es como una biblioteca gigante donde puedes guardar tu "libro" (el código de tu proyecto) y compartirlo con otros. GitHub también ofrece herramientas para colaborar en equipo, como los Pull Requests.</p>
+                <p class="analogy"><strong>Analogía General:</strong> Piensa en Git como una caja fuerte personal donde guardas las versiones de tu libro, y en GitHub como una gran estantería pública (o privada) en la nube donde colocas esa caja fuerte para que tú y tus amigos puedan trabajar juntos en el libro.</p>
+            </section>
+
+            <section id="nuevo-proyecto">
+                <h2>2. Empezando un Nuevo Proyecto: "RecetasWeb"</h2>
+                <p>Cuando inicias un nuevo proyecto, estás creando algo desde cero. Para mantener el código organizado y colaborar, usarás Git y GitHub. Vamos a imaginar que estás creando un sitio web sencillo para compartir recetas de cocina: "RecetasWeb".</p>
+                <p class="analogy"><strong>Analogía:</strong> Es como empezar a escribir un libro de recetas desde cero. Necesitas un lugar para escribir (tu computadora), una forma de guardar versiones (Git), y una estantería en la nube para compartirlo (GitHub).</p>
+                
+                <h3 id="nuevo-proyecto-paso1">a. Paso 1: Planificación del Proyecto (¡Antes del Código!)</h3>
+                <p>Antes de escribir una línea de código, ten una idea clara.</p>
+                <ul>
+                    <li><strong>Qué hacer:</strong> Define el objetivo, herramientas (lenguajes, frameworks) y cómo organizarás los archivos.</li>
+                    <li><strong>Ejemplo (RecetasWeb):</strong>
+                        <ul>
+                            <li>Usar HTML y CSS.</li>
+                            <li>Página principal (<code>index.html</code>) y estilos (<code>styles.css</code>).</li>
+                            <li>Mostrar lista de recetas con nombres e ingredientes.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Decidir que tu libro de recetas tendrá capítulos para desayunos y postres, y que usarás papel y lápiz.</p>
+
+                <h3 id="nuevo-proyecto-paso2">b. Paso 2: Configuración de Tu Entorno Local e Instalación de Git</h3>
+                <p>Prepara tu computadora.</p>
+                <ul>
+                    <li><strong>Qué hacer:</strong>
+                        <ol>
+                            <li>Crea una carpeta para tu proyecto.</li>
+                            <li>Instala Git si aún no lo tienes.</li>
+                            <li>Instala un editor de código (ej. Visual Studio Code).</li>
+                        </ol>
+                    </li>
+                    <li><strong>Instalación de Git:</strong>
+                        <h4>Windows:</h4>
+                        <p>La forma más sencilla es descargar el instalador oficial desde <a href="https://git-scm.com/download/win" target="_blank" rel="noopener noreferrer">git-scm.com/download/win</a> y seguir las instrucciones. Esto también instalará Git Bash, una terminal que te permitirá usar los comandos de Git como se muestran en este tutorial.</p>
+                        <h4>Linux (Debian/Ubuntu):</h4>
+                        <p>Abre una terminal y ejecuta:</p>
+                        <pre><code class="language-bash">sudo apt update
+sudo apt install git</code></pre>
+                        <h4>Linux (Fedora/CentOS/RHEL):</h4>
+                        <p>Abre una terminal y ejecuta:</p>
+                        <pre><code class="language-bash">sudo yum install git  # Para versiones más antiguas de Fedora/CentOS/RHEL
+sudo dnf install git  # Para versiones más nuevas de Fedora</code></pre>
+                        <h4>macOS:</h4>
+                        <p>Git suele venir preinstalado. Puedes verificarlo abriendo la Terminal y escribiendo <code>git --version</code>. Si no está, puedes instalarlo con Homebrew:</p>
+                        <pre><code class="language-bash">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # Si no tienes Homebrew
+brew install git</code></pre>
+                        <p>También puedes instalarlo descargando el instalador desde <a href="https://git-scm.com/download/mac" target="_blank" rel="noopener noreferrer">git-scm.com/download/mac</a>.</p>
+                    </li>
+                     <li><strong>Ejemplo de creación de carpeta:</strong>
+                        <p>Crea una carpeta <code>RecetasWeb</code>.</p>
+                        <p>Abre la terminal y navega a esa carpeta:</p>
+                        <pre><code class="language-bash">mkdir RecetasWeb
+cd RecetasWeb</code></pre>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Preparar tu escritorio: una carpeta nueva para tu libro, tus herramientas (Git, editor) listas y afiladas.</p>
+
+                <h3 id="nuevo-proyecto-paso3">c. Paso 3: Inicializar un Repositorio Git Local</h3>
+                <p>Aquí Git entra en acción.</p>
+                 <ul>
+                    <li><strong>Qué hacer:</strong>
+                        <ol>
+                            <li>Inicializa un repositorio Git en tu carpeta. Esto crea el "cuaderno mágico" (<code>.git/</code>) para el historial.</li>
+                            <li>Crea un archivo inicial, como <code>README.md</code>, para describir tu proyecto.</li>
+                        </ol>
+                    </li>
+                    <li><strong>Código:</strong>
+                        <p>Inicializa el repositorio:</p>
+                        <pre><code class="language-bash">git init</code></pre>
+                        <p>Esto crea una carpeta oculta <code>.git</code> donde se guarda el historial.</p>
+                        <p>Crea un <code>README.md</code>:</p>
+                        <pre><code class="language-bash">echo "# RecetasWeb" > README.md
+echo "Un sitio web para compartir recetas de cocina." >> README.md</code></pre>
+                        <p>Agrega el archivo a Git y haz tu primer "guardado" (commit):</p>
+                        <pre><code class="language-bash">git add README.md
+git commit -m "Primer commit: agregar README"</code></pre>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> <code>git init</code> es como poner una etiqueta "Versión 1" a tu libro. El <code>commit</code> es tomar una foto de esa primera página.</p>
+
+                <h3 id="nuevo-proyecto-paso4">d. Paso 4: Crear los Archivos Iniciales del Proyecto</h3>
+                <p>Empieza a escribir el código.</p>
+                <ul>
+                    <li><strong>Qué hacer:</strong>
+                        <ol>
+                            <li>Crea los archivos principales (ej. <code>index.html</code>, <code>styles.css</code>).</li>
+                            <li>Agrega contenido inicial.</li>
+                            <li>Guarda los cambios con Git (add y commit).</li>
+                        </ol>
+                    </li>
+                    <li><strong>Ejemplo:</strong>
+                        <p>Crea <code>index.html</code>:</p>
+                        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Recetas Deliciosas&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Bienvenidos a Recetas Deliciosas&lt;/h1&gt;
+    &lt;h2&gt;Receta de Pizza&lt;/h2&gt;
+    &lt;p&gt;Ingredientes: harina, queso, tomate...&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        <p>Crea <code>styles.css</code>:</p>
+                        <pre><code class="language-css">/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+h1 {
+    color: #333;
+}</code></pre>
+                        <p>Agrega y haz commit:</p>
+                        <pre><code class="language-bash">git add index.html styles.css
+git commit -m "Agregar página principal y estilos iniciales"</code></pre>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Escribir las primeras páginas: portada (<code>index.html</code>) y diseño (<code>styles.css</code>). Tomas otra foto (<code>commit</code>) para guardar esta versión.</p>
+
+                <h3 id="nuevo-proyecto-paso5">e. Paso 5: Crear un Repositorio en GitHub y Conectar</h3>
+                <p>Sube tu proyecto a la nube para almacenarlo y colaborar.</p>
+                <ul>
+                    <li><strong>Qué hacer:</strong>
+                        <ol>
+                            <li>Ve a GitHub y crea un nuevo repositorio (ej. <code>RecetasWeb</code>). No inicialices con un README si ya tienes uno local.</li>
+                            <li>Conecta tu repositorio local con el de GitHub.</li>
+                            <li>Sube tus archivos.</li>
+                        </ol>
+                    </li>
+                    <li><strong>Ejemplo (comandos después de crear el repo en GitHub):</strong>
+                        <p>GitHub te dará instrucciones similares a estas:</p>
+                        <pre><code class="language-bash">git remote add origin https://github.com/tu-usuario/RecetasWeb.git
+git branch -M main  # Renombra la rama actual a 'main' si es necesario
+git push -u origin main # Sube tu rama 'main' a GitHub</code></pre>
+                         <p>Reemplaza <code>tu-usuario</code> con tu nombre de usuario real de GitHub.</p>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Llevar tu libro a la biblioteca (GitHub) y colocarlo en una estantería. El URL es la dirección de esa estantería.</p>
+
+                <h3 id="nuevo-proyecto-autenticacion">f. Autenticación con Git y GitHub</h3>
+                <p>Cuando interactúas con repositorios remotos en GitHub (por ejemplo, al hacer <code>git push</code> o <code>git pull</code> desde un repositorio privado, o al empujar a cualquier repositorio), necesitas autenticarte para demostrar que tienes permiso para realizar esas acciones. Hay dos métodos principales de autenticación con GitHub:</p>
+                
+                <h4>1. HTTPS con Personal Access Token (PAT)</h4>
+                <p>Este es el método recomendado para la autenticación HTTPS en la línea de comandos.</p>
+                <ul>
+                    <li><strong>¿Qué es?</strong> Un PAT es una cadena de caracteres alfanuméricos que funciona como una contraseña alternativa para GitHub. Puedes crear PATs con permisos específicos (scopes) para limitar lo que se puede hacer con ellos.</li>
+                    <li><strong>¿Por qué usar PATs en lugar de tu contraseña?</strong> GitHub ha deprecado el uso de contraseñas para la autenticación de Git en la línea de comandos por razones de seguridad. Los PATs son más seguros porque:
+                        <ul>
+                            <li>Son únicos para cada aplicación o uso.</li>
+                            <li>Pueden ser revocados individualmente.</li>
+                            <li>Pueden tener permisos limitados (por ejemplo, solo para leer repositorios o solo para escribir en ellos).</li>
+                        </ul>
+                    </li>
+                    <li><strong>¿Cómo usarlo?</strong>
+                        <ol>
+                            <li><strong>Genera un PAT en GitHub:</strong> Ve a tu perfil de GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token. Dale un nombre descriptivo, selecciona los scopes necesarios (para clonar, empujar, etc., el scope <code>repo</code> es común) y genera el token. <strong>¡Copia el token inmediatamente! No podrás volver a verlo.</strong></li>
+                            <li><strong>Uso en la línea de comandos:</strong> Cuando Git te pida tu contraseña al interactuar con GitHub vía HTTPS, ingresa tu PAT en lugar de tu contraseña de GitHub.
+                                <pre><code class="language-bash">git clone https://github.com/tu-usuario/tu-repositorio.git
+# Username for 'https://github.com': tu-usuario
+# Password for 'https://tu-usuario@github.com': [PEGA AQUÍ TU PERSONAL ACCESS TOKEN]</code></pre>
+                            </li>
+                            <li><strong>Gestores de Credenciales:</strong> Para no tener que ingresar el PAT cada vez, puedes usar un gestor de credenciales de Git (Git Credential Manager), que suele estar configurado por defecto con las instalaciones modernas de Git. Este almacenará tu PAT de forma segura después de la primera vez que lo ingreses.</li>
+                        </ol>
+                    </li>
+                </ul>
+
+                <h4>2. SSH (Secure Shell)</h4>
+                <p>Este método utiliza un par de claves criptográficas: una clave pública que agregas a tu cuenta de GitHub y una clave privada que permanece segura en tu computadora.</p>
+                <ul>
+                    <li><strong>¿Cómo funciona?</strong> Cuando intentas conectarte a GitHub usando SSH, Git usa tu clave privada para "firmar" la conexión. GitHub luego verifica esta firma usando la clave pública correspondiente que tiene almacenada.</li>
+                    <li><strong>Ventajas:</strong>
+                        <ul>
+                            <li>No necesitas ingresar tu nombre de usuario o PAT cada vez que te conectas.</li>
+                            <li>Considerado muy seguro si tu clave privada está protegida (idealmente con una frase de contraseña).</li>
+                        </ul>
+                    </li>
+                    <li><strong>¿Cómo configurarlo?</strong>
+                        <ol>
+                            <li><strong>Verifica claves SSH existentes:</strong>
+                                <pre><code class="language-bash">ls -al ~/.ssh</code></pre>
+                                <p>Busca archivos como <code>id_rsa.pub</code>, <code>id_ecdsa.pub</code>, o <code>id_ed25519.pub</code>.</p>
+                            </li>
+                            <li><strong>Genera una nueva clave SSH (si no tienes una o quieres una nueva):</strong>
+                                <p>Se recomienda Ed25519:</p>
+                                <pre><code class="language-bash">ssh-keygen -t ed25519 -C "tu_email@ejemplo.com"</code></pre>
+                                <p>Cuando te pregunte "Enter a file in which to save the key", puedes presionar Enter para aceptar la ubicación por defecto. Es altamente recomendable establecer una frase de contraseña (passphrase) segura para tu clave SSH.</p>
+                            </li>
+                            <li><strong>Agrega tu clave SSH al ssh-agent:</strong>
+                                <pre><code class="language-bash">eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519 # O el nombre de tu archivo de clave privada</code></pre>
+                            </li>
+                            <li><strong>Agrega tu clave pública SSH a tu cuenta de GitHub:</strong>
+                                <p>Copia el contenido de tu archivo de clave pública. Por ejemplo, si usaste Ed25519:</p>
+                                <pre><code class="language-bash">cat ~/.ssh/id_ed25519.pub</code></pre>
+                                <p>Copia toda la salida (que empieza con <code>ssh-ed25519...</code> y termina con tu email).</p>
+                                <p>Ve a tu perfil de GitHub → Settings → SSH and GPG keys → New SSH key. Dale un título y pega tu clave pública en el campo "Key".</p>
+                            </li>
+                            <li><strong>Prueba tu conexión SSH:</strong>
+                                <pre><code class="language-bash">ssh -T git@github.com</code></pre>
+                                <p>Deberías ver un mensaje como: "Hi tu-usuario! You've successfully authenticated, but GitHub does not provide shell access."</p>
+                            </li>
+                            <li><strong>Clonar y empujar con SSH:</strong> Cuando clones un repositorio, usa la URL SSH en lugar de la HTTPS. La encontrarás en GitHub en el botón "Code". Se verá algo así: <code>git@github.com:tu-usuario/tu-repositorio.git</code>.
+                                <pre><code class="language-bash">git clone git@github.com:tu-usuario/tu-repositorio.git</code></pre>
+                            </li>
+                        </ol>
+                    </li>
+                </ul>
+                <p>Elegir entre HTTPS (con PAT) y SSH es a menudo una preferencia personal. SSH es popular entre desarrolladores por su conveniencia una vez configurado. Los PATs son flexibles y más fáciles de empezar a usar para interacciones HTTPS.</p>
+            </section>
+
+            <section id="flujo-trabajo">
+                <h2>3. Flujo de Trabajo Esencial: Ramas y Pull Requests</h2>
+                <p>Ahora que tu proyecto está en Git y GitHub, veamos cómo trabajar de forma organizada, especialmente en equipo.</p>
+
+                <h3 id="flujo-trabajo-ramas">a. Ramas (Branches): Tu Espacio de Trabajo Aislado</h3>
+                <p>Una rama es una copia del proyecto donde puedes hacer cambios sin afectar la versión principal (generalmente <code>main</code> o <code>master</code>). Git te permite crear tantas ramas como necesites.</p>
+                <ul>
+                    <li><strong>Contexto:</strong> Cuando vas a añadir una nueva función o corregir un error, creas una rama nueva para ese cambio específico.</li>
+                    <li><strong>Comandos:</strong>
+                        <p>Para crear una nueva rama y cambiar a ella:</p>
+                        <pre><code class="language-bash">git checkout -b nombre-de-tu-rama</code></pre>
+                        <p>(Ej: <code>git checkout -b nueva-receta-pastel</code>)</p>
+                        <p>Para cambiar a una rama existente:</p>
+                        <pre><code class="language-bash">git checkout nombre-de-rama-existente</code></pre>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Una rama es como una copia de tu libro de recetas en la que puedes escribir borradores sin arruinar el libro original. La rama <code>main</code> es el libro oficial publicado.</p>
+
+                <h3 id="flujo-trabajo-commits">b. Commits: Guardando Tu Progreso</h3>
+                <p>Un commit es como un "punto de guardado" de los cambios que hiciste en tu código dentro de una rama. Cada commit tiene un mensaje que describe qué cambiaste.</p>
+                <ul>
+                    <li><strong>Contexto:</strong> Antes de proponer tus cambios (con un Pull Request), haces varios commits en tu rama para guardar tu progreso de forma granular.</li>
+                    <li><strong>Buenas Prácticas para Commits:</strong>
+                        <ul>
+                            <li>Haz commits pequeños y específicos. (Ej: "Agregué ingredientes de la pizza" en lugar de "Hice muchos cambios").</li>
+                            <li>Escribe mensajes de commit claros y descriptivos.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Un commit es como tomar una foto de una página de tu libro de recetas después de escribir algo nuevo, para no perder ese progreso.</p>
+
+                <h3 id="flujo-trabajo-prs">c. Pull Requests (PRs): Proponiendo Tus Cambios para Integración</h3>
+                <p>Un Pull Request (PR) es una solicitud formal que haces en GitHub (o plataformas similares) para que los cambios que hiciste en tu rama sean incorporados (mezclados o "mergeados") a otra rama, usualmente la rama principal (<code>main</code>).</p>
+                <ul>
+                    <li><strong>Contexto:</strong> Esencial para el trabajo en equipo. En lugar de que todos escriban directamente en el "libro principal" (<code>main</code>), cada persona hace cambios en una copia (rama) y luego pide permiso (un PR) para agregar esos cambios al libro principal.</li>
+                    <li><strong>Proceso Básico de un PR:</strong>
+                        <ol>
+                            <li>Haces cambios en una copia (rama) de tu proyecto.</li>
+                            <li>Subes esos cambios (tu rama con sus commits) a GitHub (<code>git push origin nombre-de-tu-rama</code>).</li>
+                            <li>En GitHub, creas un Pull Request desde tu rama hacia la rama <code>main</code>.</li>
+                            <li>Tus compañeros revisan el PR, dan retroalimentación (revisión de código).</li>
+                            <li>Si todo está bien, aprueban y mezclan (merge) tus cambios en <code>main</code>.</li>
+                        </ol>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Creas una nueva receta de pastel en tu borrador (rama). Un PR es como decir a tus compañeros: "¡Oigan, hice esta nueva receta de pastel! ¿La revisan y, si les gusta, la agregamos al libro principal?".</p>
+
+                <h3 id="flujo-trabajo-terminos-prs">d. Términos Clave Relacionados con Pull Requests:</h3>
+                <ul>
+                    <li><strong>Repositorio (Repository):</strong> El lugar donde se guarda todo el proyecto (código, archivos, historial). En GitHub, es como una carpeta grande para tu proyecto. Los PRs se crean dentro de un repositorio.
+                        <p class="analogy"><strong>Analogía:</strong> La estantería completa donde guardas tu libro de recetas.</p>
+                    </li>
+                    <li><strong>Merge (Mezclar):</strong> El acto de combinar los cambios de una rama con otra (generalmente <code>main</code>). Un PR aprobado termina con un merge.
+                        <p class="analogy"><strong>Analogía:</strong> Pegar oficialmente tu nueva receta de pizza en el libro principal después de que todos la aprobaron.</p>
+                    </li>
+                    <li><strong>Revisión de Código (Code Review):</strong> Proceso donde otros revisan los cambios en tu PR. Pueden dejar comentarios, sugerir mejoras o aprobar.
+                        <p class="analogy"><strong>Analogía:</strong> Tus amigos prueban tu receta de pizza y te dicen si está rica o necesita ajustes antes de publicarla.</p>
+                    </li>
+                    <li><strong>Conflictos (Merge Conflicts):</strong> Ocurren cuando Git no puede combinar automáticamente cambios hechos por diferentes personas en la misma parte de un archivo. Debes resolverlos manualmente antes del merge.
+                        <p><strong>Ejemplo:</strong> Tú cambiaste una línea para usar queso mozzarella, y un compañero cambió la misma línea para usar queso cheddar. Git no sabe cuál elegir.</p>
+                        <p class="analogy"><strong>Analogía:</strong> Dos chefs intentan agregar ingredientes diferentes a la misma receta al mismo tiempo. Deben decidir juntos qué ingrediente usar.</p>
+                    </li>
+                    <li><strong>Fork (Bifurcar):</strong> Una copia completa de un repositorio de otra persona en tu propia cuenta de GitHub. Útil si no tienes permisos para modificar directamente un repositorio (ej. un proyecto de código abierto). Haces un fork, trabajas en tu copia y luego creas un PR desde tu fork al repositorio original.
+                        <p class="analogy"><strong>Analogía:</strong> Hacer una fotocopia del libro de recetas de alguien más para trabajar en tu propia versión, y luego pedirles que incluyan tus cambios en su libro original.</p>
+                    </li>
+                </ul>
+
+                <h3 id="flujo-trabajo-autorizar-main">e. ¿Cómo se Autoriza un Cambio en la Rama Principal (<code>main</code>)?</h3>
+                <p>Normalmente, la rama <code>main</code> está protegida. Los cambios se autorizan a través del proceso de Pull Request:</p>
+                <ol>
+                    <li><strong>Crear una rama para los cambios</strong> (ej. <code>nueva-receta-sopa</code>).</li>
+                    <li><strong>Hacer los cambios y commits</strong> en esa rama.</li>
+                    <li><strong>Subir la rama a GitHub</strong> (<code>git push origin nueva-receta-sopa</code>).</li>
+                    <li><strong>Crear un Pull Request</strong> en GitHub desde <code>nueva-receta-sopa</code> hacia <code>main</code>.</li>
+                    <li><strong>Revisión y Aprobación:</strong> Compañeros (o tú mismo si trabajas solo) revisan el código. Pueden solicitar cambios. Una vez aprobado...</li>
+                    <li><strong>Hacer el Merge:</strong> Un encargado (o tú) hace clic en "Merge pull request" en GitHub. ¡Tus cambios ahora están en <code>main</code>!</li>
+                </ol>
+                <p><strong>Protección de Ramas (Opcional pero Recomendado):</strong> En GitHub, puedes configurar "Branch protection rules" para <code>main</code>. Esto puede exigir que todos los cambios pasen por un PR y que al menos una persona apruebe antes del merge.</p>
+            </section>
+
+            <section id="estructura-archivos">
+                <h2>4. Estructura de Archivos del Proyecto: Local y en GitHub</h2>
+                <p>Una buena organización de carpetas es clave.</p>
+                <p class="analogy"><strong>Analogía:</strong> Es el índice de tu libro de recetas. Si está bien organizado, encuentras todo fácilmente.</p>
+
+                <h3 id="estructura-archivos-local-inicial">a. Estructura Local Inicial (Proyecto <code>RecetasWeb</code>)</h3>
+                <p>Después de <code>git init</code> y crear los primeros archivos:</p>
+                <pre><code class="language-plaintext">RecetasWeb/
+├── .git/           # Carpeta oculta de Git (¡no la toques manualmente!)
+├── index.html      # Página principal
+├── styles.css      # Archivo de estilos
+└── README.md       # Descripción del proyecto</code></pre>
+
+                <h3 id="estructura-archivos-local-completa">b. Estructura Local Más Completa (Recomendada)</h3>
+                <p>A medida que el proyecto crece:</p>
+                <pre><code class="language-plaintext">RecetasWeb/
+├── .git/
+├── .github/                  # Carpeta para configuraciones de GitHub (ej. Actions)
+│   └── workflows/            # Subcarpeta para GitHub Actions
+│       └── check.yml         # Archivo para automatizar revisiones
+├── assets/                   # Carpeta para recursos estáticos (imágenes, fuentes)
+│   ├── images/               # Subcarpeta para imágenes
+│   │   └── pizza.jpg
+│   └── fonts/                # Subcarpeta para fuentes
+├── pages/                    # Carpeta para páginas adicionales
+│   └── receta-sopa.html
+├── src/                      # Opcional: para código fuente si el proyecto es más complejo (ej. JavaScript)
+├── tests/                    # Opcional: para pruebas automatizadas
+├── index.html
+├── styles.css                # Podría estar en assets/css/ o src/styles/ en proyectos más grandes
+├── README.md
+└── .gitignore                # Archivo para listar archivos/carpetas a ignorar por Git</code></pre>
+                <p><strong>Contenido de <code>.gitignore</code> (ejemplo):</strong></p>
+                <pre><code class="language-plaintext"># .gitignore
+*.log                   # Ignora archivos de log
+node_modules/           # Ignora dependencias de Node.js (si usas)
+.DS_Store               # Ignora archivos de macOS
+.vscode/                # Ignora configuraciones del editor VSCode</code></pre>
+                <p class="analogy"><strong>Analogía (<code>.gitignore</code>):</strong> Una lista de cosas que no quieres llevar a la biblioteca (papeles sucios, borradores temporales).</p>
+
+                <h3 id="estructura-archivos-github">c. Estructura en GitHub</h3>
+                <p>Es un espejo de tu estructura local (lo que subes con <code>git push</code>), pero <code>.git/</code> no se muestra. GitHub puede tener carpetas especiales como <code>.github/workflows/</code> para GitHub Actions.</p>
+
+                <h3 id="estructura-archivos-por-que">d. ¿Por Qué esta Estructura?</h3>
+                <ol>
+                    <li><strong>Organización:</strong> Facilita navegar y encontrar archivos.</li>
+                    <li><strong>Escalabilidad:</strong> Permite que el proyecto crezca ordenadamente.</li>
+                    <li><strong>Colaboración:</strong> Un estándar ayuda a que todos entiendan dónde están las cosas.</li>
+                    <li><strong>Automatización:</strong> Herramientas como GitHub Actions esperan ciertas carpetas.</li>
+                    <li><strong>Mantenimiento:</strong> <code>.gitignore</code> mantiene limpio el repositorio.</li>
+                </ol>
+                <p class="analogy"><strong>Analogía Final (Estructura de Carpetas):</strong> Es como la organización de una cocina. Los ingredientes (archivos) están en cajones específicos: harina en <code>assets/</code>, recetas en <code>pages/</code>. Si todo tiene su lugar, cocinar (desarrollar) es más fácil.</p>
+
+                <h3 id="estructura-archivos-rutas-relativas">e. Referenciando Archivos en HTML (Rutas Relativas)</h3>
+                <p>Cuando tu <code>index.html</code> necesita cargar <code>styles.css</code> o una imagen de <code>assets/images/pizza.jpg</code>, debes usar <strong>rutas relativas</strong>.</p>
+                <ul>
+                    <li><strong>¿Qué es una ruta relativa?</strong> Describe la ubicación de un archivo en relación con el archivo actual (ej. <code>index.html</code>).</li>
+                    <li><strong>¿Por qué usarlas?</strong>
+                        <ul>
+                            <li><strong>Portabilidad:</strong> Funcionan igual localmente y en un servidor (GitHub Pages).</li>
+                            <li><strong>Mantenimiento:</strong> No necesitas cambiar rutas si mueves el proyecto o cambia el dominio.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Reglas Básicas:</strong>
+                        <ul>
+                            <li><code>nombre-archivo.ext</code>: Archivo en la misma carpeta. (ej. <code>styles.css</code> si está al lado de <code>index.html</code>).</li>
+                            <li><code>nombre-carpeta/nombre-archivo.ext</code>: Archivo dentro de una subcarpeta. (ej. <code>assets/images/pizza.jpg</code>).</li>
+                            <li><code>../nombre-archivo.ext</code>: Archivo en la carpeta padre (subir un nivel).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ejemplo en <code>index.html</code> (asumiendo que <code>index.html</code> y <code>styles.css</code> están en la raíz, e <code>images</code> dentro de <code>assets</code>):</strong>
+                        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Recetas Deliciosas&lt;/title&gt;
+    &lt;!-- Vincular el archivo CSS --&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Bienvenidos a Recetas Deliciosas&lt;/h1&gt;
+    &lt;h2&gt;Receta de Pizza&lt;/h2&gt;
+    &lt;!-- Vincular una imagen --&gt;
+    &lt;img src="assets/images/pizza.jpg" alt="Foto de una pizza"&gt;
+    &lt;!-- Vincular otra página --&gt;
+    &lt;a href="pages/receta-sopa.html"&gt;Ver receta de sopa&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </li>
+                </ul>
+                <p class="analogy"><strong>Analogía (Rutas Relativas):</strong> Estás en la sala (<code>index.html</code>). Para el CSS en la misma sala, solo dices "toma <code>styles.css</code>". Para la imagen, dices "ve al cajón <code>assets/</code>, luego al subcajón <code>images/</code>, y toma <code>pizza.jpg</code>".</p>
+            </section>
+
+            <section id="herramientas">
+                <h2>5. Herramientas: ¿Terminal (Bash) o IDE?</h2>
+                <h3 id="herramientas-bash">a. ¿Por Qué <code>bash</code> en los Comandos de Ejemplo?</h3>
+                <p>Bash (Bourne Again Shell) es un lenguaje de comandos que se ejecuta en una terminal.</p>
+                <ul>
+                    <li><strong>Universalidad:</strong> Es una forma directa de interactuar con Git en la mayoría de sistemas operativos (Linux, macOS, Windows con Git Bash).</li>
+                    <li><strong>Consistencia:</strong> Los comandos son los mismos.</li>
+                    <li><strong>Educativo:</strong> Entiendes profundamente cómo funciona Git.</li>
+                </ul>
+                <p class="analogy"><strong>Analogía:</strong> Bash es el idioma que hablas para darle instrucciones a tu asistente (Git).</p>
+
+                <h3 id="herramientas-ide">b. ¿Es Necesario Usar la Terminal? ¿O Puedo Usar un IDE?</h3>
+                <p>No, no es estrictamente necesario.</p>
+                <ul>
+                    <li><strong>IDEs (Entornos de Desarrollo Integrado):</strong> Muchos IDEs modernos (Visual Studio Code, IntelliJ IDEA, PyCharm) tienen integración con Git. Puedes hacer <code>commits</code>, crear ramas, etc., desde una interfaz gráfica.
+                        <p><strong>Ejemplo (VS Code):</strong> Puedes inicializar Git, hacer commits, cambiar ramas y subir cambios usando la pestaña de Git y botones.</p>
+                    </li>
+                    <li><strong>Ventajas del IDE:</strong> Más visual, menos errores de tipeo, todo en un lugar.</li>
+                    <li><strong>Desventajas del IDE:</strong> Menos control en operaciones avanzadas, dependencia del IDE.</li>
+                    <li><strong>Recomendación:</strong> Aprende lo básico en la terminal para entender Git, luego usa un IDE por comodidad si lo prefieres. Muchos desarrolladores usan una mezcla de ambos.</li>
+                </ul>
+                <p class="analogy"><strong>Analogía (Terminal vs IDE):</strong> Usar la terminal es como cocinar siguiendo instrucciones exactas con tus manos (control total). Usar un IDE es como un robot de cocina: hace el trabajo con botones, pero a veces con menos flexibilidad para detalles finos.</p>
+            </section>
+
+            <section id="otros-comandos">
+                <h2>6. Otros Comandos y Conceptos Útiles de Git</h2>
+                <ul>
+                    <li><code>git clone &lt;URL_del_repositorio&gt;</code>: Si quieres trabajar en un proyecto existente en GitHub, primero lo clonas (descargas una copia) a tu máquina.
+                        <p><strong>Ejemplo:</strong> <code>git clone https://github.com/tu-usuario/RecetasWeb.git</code></p>
+                        <p class="analogy"><strong>Analogía:</strong> Pedir una copia del libro de recetas de la biblioteca para trabajar en tu casa.</p>
+                    </li>
+                    <li><code>git status</code>: Muestra el estado de tus archivos (cuáles están modificados, cuáles listos para commit, etc.). ¡Úsalo frecuentemente!</li>
+                    <li><code>git pull origin nombre-rama</code>: Actualiza tu rama local con los cambios de la rama remota correspondiente en GitHub. Esencial antes de empezar a trabajar para tener la última versión.</li>
+                    <li><code>git log</code>: Muestra el historial de commits de la rama actual.
+                        <p class="analogy"><strong>Analogía:</strong> Revisar un álbum de fotos de todas las versiones de tu libro.</p>
+                    </li>
+                    <li><strong>Deshacer Cambios:</strong>
+                        <ul>
+                            <li><code>git restore &lt;archivo&gt;</code>: Descarta cambios en un archivo que aún no has añadido al "staging area".</li>
+                            <li><code>git restore --staged &lt;archivo&gt;</code>: Saca un archivo del "staging area" (deshace <code>git add &lt;archivo&gt;</code>).</li>
+                            <li><code>git reset HEAD^</code>: Deshace el último commit (manteniendo los cambios en tus archivos para que puedas rehacer el commit). (¡Con cuidado con <code>reset</code>!).</li>
+                        </ul>
+                    </li>
+                    <li><strong>GitHub Actions:</strong> Permite automatizar tareas en tu repositorio de GitHub, como ejecutar pruebas cada vez que se crea un PR. Se configuran con archivos <code>.yml</code> en la carpeta <code>.github/workflows/</code>.
+                        <p class="analogy"><strong>Analogía:</strong> Un asistente que revisa automáticamente tu receta cada vez que la actualizas.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="buenas-practicas">
+                <h2>7. Buenas Prácticas Adicionales</h2>
+                <ul>
+                    <li><strong>Nombres de Ramas Descriptivos:</strong> <code>nueva-receta-sopa</code> es mejor que <code>rama1</code>.</li>
+                    <li><strong>Actualiza con Frecuencia:</strong> Haz <code>git pull</code> regularmente si colaboras para evitar conflictos grandes.</li>
+                    <li><strong>Documentación:</strong> Mantén tu <code>README.md</code> actualizado con información sobre el proyecto, cómo ejecutarlo y cómo contribuir.</li>
+                </ul>
+            </section>
+
+            <section id="conclusion">
+                <h2>8. Conclusión: ¡A Practicar!</h2>
+                <p>Este tutorial te ha dado una base sólida. La clave ahora es practicar:</p>
+                <ol>
+                    <li>Crea tus propios proyectos.</li>
+                    <li>Usa Git para cada cambio.</li>
+                    <li>Súbelos a GitHub.</li>
+                    <li>Intenta colaborar con alguien o contribuye a proyectos de código abierto (empezando con un <code>fork</code>).</li>
+                </ol>
+                <p class="analogy"><strong>Analogía Final General:</strong> Iniciar un proyecto es como empezar un libro de recetas. Planificas (decides recetas), preparas tu escritorio (entorno), escribes y guardas versiones (Git), lo compartes en una biblioteca (GitHub), y estableces reglas para que otros chefs te ayuden (flujo con Pull Requests). Los Pull Requests son el filtro de calidad: antes de agregar una nueva receta al libro principal, todos la revisan. Así, el libro siempre está en buen estado.</p>
+                <p>¡No tengas miedo de experimentar! Git es poderoso y te permite retroceder si algo sale mal.</p>
+            </section>
+
+             <div class="pdf-options-container" style="margin-top: 30px;"> <label for="pdf-orientation-bottom">Orientación del PDF:</label>
+                <select id="pdf-orientation-bottom">
+                    <option value="portrait" selected>Vertical (Portrait)</option>
+                    <option value="landscape">Horizontal (Landscape)</option>
+                </select>
+            </div>
+            <div class="button-container" style="margin-top: 15px;"> <button id="download-pdf-bottom">Descargar Tutorial como PDF</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
