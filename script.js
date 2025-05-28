@@ -2,16 +2,27 @@ document.addEventListener('DOMContentLoaded', function () {
             // --- Funcionalidad para Botones de Copiar Código ---
             const preBlocks = document.querySelectorAll('pre');
             preBlocks.forEach(pre => {
-                const code = pre.querySelector('code');
-                if (code) { // Asegurarse de que haya un elemento code
+                if (pre.classList.contains('copy-button-area-processed')) {
+                    return; // Skip if already processed
+                }
+
+                const codeElement = pre.querySelector('code'); 
+                if (codeElement) { 
+                    const scrollWrapper = document.createElement('div');
+                    scrollWrapper.className = 'code-scroll-wrapper';
+                    
+                    scrollWrapper.appendChild(codeElement); // Moves codeElement from pre to scrollWrapper
+                    
+                    pre.innerHTML = ''; // Clear pre completely
+                    pre.appendChild(scrollWrapper); // Add the wrapper with codeElement
+
                     const copyButton = document.createElement('button');
                     copyButton.className = 'copy-code-button';
                     copyButton.textContent = 'Copiar';
-                    pre.appendChild(copyButton);
+                    pre.appendChild(copyButton); // Append button as direct child of pre
 
                     copyButton.addEventListener('click', () => {
-                        const codeToCopy = code.innerText;
-                        // Intenta con la API del portapapeles moderna
+                        const codeToCopy = codeElement.innerText; 
                         if (navigator.clipboard && navigator.clipboard.writeText) {
                             navigator.clipboard.writeText(codeToCopy).then(() => {
                                 copyButton.textContent = '¡Copiado!';
@@ -25,10 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                 fallbackCopyTextToClipboard(codeToCopy, copyButton);
                             });
                         } else {
-                            // Fallback para navegadores más antiguos o contextos no seguros
                             fallbackCopyTextToClipboard(codeToCopy, copyButton);
                         }
                     });
+                    
+                    pre.classList.add('copy-button-area-processed');
                 }
             });
 
